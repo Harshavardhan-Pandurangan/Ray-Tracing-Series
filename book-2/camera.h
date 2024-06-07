@@ -31,7 +31,7 @@ public:
 
         for (int j = 0; j < image_height; j++)
         {
-            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+            std::clog << "\rRender Progress: " << (100.0 * j / (image_height - 1)) << '%' << std::flush;
             for (int i = 0; i < image_width; i++)
             {
                 color pixel_color(0, 0, 0);
@@ -106,8 +106,9 @@ private:
 
         auto ray_origin = (defocus_angle <= 0) ? center : defocus_disk_sample();
         auto ray_direction = pixel_sample - ray_origin;
+        auto ray_time = random_double();
 
-        return ray(ray_origin, ray_direction);
+        return ray(ray_origin, ray_direction, ray_time);
     }
 
     vec3 sample_square() const
